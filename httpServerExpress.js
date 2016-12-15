@@ -40,13 +40,16 @@ app.post('/pets', (req, res) => {
     }
 
     const pets = JSON.parse(petsJSON);
-    const pet = req.body.name;
+    const petName = req.body.name;
+    const petAge = Number.parseInt(req.body.age);
+    const petKind = req.body.kind;
 
-    if (!pet) {
+    if (!petAge || Number.isNaN(petAge) || !petKind) {
       return res.sendStatus(400);
     }
+    const newPet = { name: petName, age: petAge, kind: petKind };
 
-    pets.push(pet);
+    pets.push(newPet);
 
     const newPetsJSON = JSON.stringify(pets);
 
@@ -58,7 +61,7 @@ app.post('/pets', (req, res) => {
       }
 
       res.set('Content-Type', 'text/plain');
-      res.send(pet);
+      res.send("added" + newPet);
     });
   });
 });
